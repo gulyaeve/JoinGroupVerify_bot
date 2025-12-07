@@ -5,13 +5,13 @@ from os import path
 class Settings(BaseSettings):
     # Telegram auth
     TELEGRAM_API_TOKEN: str
-    # TELEGRAM_API_SERVER: str
-    # TELEGRAM_API_PORT: int
+    TELEGRAM_API_SERVER: str
+    TELEGRAM_API_PORT: int
     BOT_ADMINS: list
 
-    # @property
-    # def api_server_url(self):
-    #     return f"http://{self.TELEGRAM_API_SERVER}:{self.TELEGRAM_API_PORT}"
+    @property
+    def api_server_url(self):
+        return f"http://{self.TELEGRAM_API_SERVER}:{self.TELEGRAM_API_PORT}"
 
     # Path to webhook route, on which Telegram will send requests
     WEBHOOK_PATH: str | None
@@ -22,9 +22,9 @@ class Settings(BaseSettings):
     # in this example it is used public DNS with HTTPS support
     BASE_WEBHOOK_URL: str | None
 
-    # @property
-    # def webhook(self):
-    #     return f"{self.BASE_WEBHOOK_URL}:{self.WEBHOOK_PORT}{self.WEBHOOK_PATH}"
+    @property
+    def webhook(self):
+        return f"{self.BASE_WEBHOOK_URL}:{self.WEBHOOK_PORT}{self.WEBHOOK_PATH}"
 
     class Config:
         env_file = ".env" if path.exists(".env") else None

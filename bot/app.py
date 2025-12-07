@@ -17,13 +17,13 @@ from bot.settings import settings
 logging.basicConfig(level=logging.INFO)
 
 # Настройка сессии на кастомный api server
-# session = AiohttpSession(api=TelegramAPIServer.from_base(settings.api_server_url, is_local=True))
+session = AiohttpSession(api=TelegramAPIServer.from_base(settings.api_server_url, is_local=True))
 
 # Объект бота
 bot = Bot(
     token=settings.TELEGRAM_API_TOKEN,
     default=DefaultBotProperties(parse_mode=ParseMode.HTML),
-    # session=session,
+    session=session,
 )
 
 # Storage
