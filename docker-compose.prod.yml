@@ -1,0 +1,20 @@
+
+services:
+  bot:
+    container_name: "moshelper_bot"
+    image: "moshelper_bot"
+    build:
+      context: .
+    networks:
+      default:
+        aliases:
+          - "moshelper_bot"
+    restart: always
+    env_file:
+      - ".env"
+
+
+networks:
+  default:
+    name: bot_network
+    external: true
