@@ -8,6 +8,7 @@ from bot.utils.utilities import make_bytes
 
 
 async def notify_admins(bot: Bot, text: str, reply_markup=None):
+    logging.info(text)
     for bot_admin in settings.BOT_ADMINS:
         try:
             await bot.send_message(bot_admin, text, reply_markup=reply_markup)
