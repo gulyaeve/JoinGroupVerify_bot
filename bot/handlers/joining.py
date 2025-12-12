@@ -49,7 +49,7 @@ async def kick(
             group_id=group_id,
             user_fullname=user_fullname,
         )
-        await bot.delete_message(message_id)
+        await bot.delete_message(message_id=message_id, chat_id=group_id)
     elif user_in_group.status != 'left':
         await notify_admins(text=f"{user_fullname} ответил правильно и прошел верификацию.", bot=bot)
         ver.remove(member_id)
