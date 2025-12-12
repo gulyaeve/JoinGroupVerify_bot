@@ -37,7 +37,8 @@ async def kick(
         member_id: int,
         bot: Bot,
         group_id: int,
-        user_fullname: str
+        user_fullname: str,
+        message_id: int,
 ):
     await asyncio.sleep(time_to_join)
     user_in_group = await bot.get_chat_member(group_id, member_id)
@@ -48,6 +49,7 @@ async def kick(
             group_id=group_id,
             user_fullname=user_fullname,
         )
+        await bot.delete_message(message_id)
     elif user_in_group.status != 'left':
         await notify_admins(text=f"{user_fullname} ответил правильно и прошел верификацию.", bot=bot)
         ver.remove(member_id)
@@ -76,7 +78,7 @@ async def new_member(event: ChatMemberUpdated, bot: Bot):
     f = random.randint(0, 10)
     s = random.randint(0, 10)
     await notify_admins(text=f"{event.new_chat_member}\nначал верификацию в группе {event.chat.full_name}.", bot=bot)
-    await bot.send_message(chat_id=event.chat.id,
+    message = await bot.send_message(chat_id=event.chat.id,
             text=f"Добро пожаловать <b>@{event.new_chat_member.user.full_name}</b>!\nПройди верификацию за {time_to_join} секунд: \n{f} + {s} = ",
             reply_markup=ver_ikb(f + s, event.new_chat_member.user.id),
         )
@@ -85,6 +87,7 @@ async def new_member(event: ChatMemberUpdated, bot: Bot):
         bot=bot,
         group_id=event.chat.id,
         user_fullname=event.new_chat_member.user.full_name,
+        message_id=message.message_id,
     )
 
 
