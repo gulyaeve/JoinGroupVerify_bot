@@ -41,7 +41,11 @@ async def kick(
         message_id: int,
 ):
     await asyncio.sleep(time_to_join)
-    await bot.delete_message(message_id=message_id, chat_id=group_id)
+    try:
+        await bot.delete_message(message_id=message_id, chat_id=group_id)
+    except TelegramBadRequest as e:
+        logging.warning(e)
+
     user_in_group = await bot.get_chat_member(group_id, member_id)
     if member_id not in ver and user_in_group.status != 'left':
         await ban_user(
