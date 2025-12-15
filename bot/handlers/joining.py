@@ -38,7 +38,9 @@ async def kick(
     user_fullname: str,
     message_id: int,
 ):
+    logging.info(f"{ver=} {member_id=}")
     await asyncio.sleep(time_to_join)
+    logging.info(f"{ver=} {member_id=}")
     try:
         await bot.delete_message(message_id=message_id, chat_id=group_id)
     except TelegramBadRequest as e:
@@ -102,21 +104,31 @@ async def new_member(event: ChatMemberUpdated, bot: Bot):
 # @router.callback_query(lambda callback: callback.data == str(callback.from_user.id))
 async def not_kick(callback: types.CallbackQuery):
     ver.append(callback.from_user.id)
+    logging.info(f"Пользователь ответил правильно {ver=}")
     await callback.answer("Вы успешно верифицировались!", show_alert=True)
-    await callback.message.delete()
+    try:
+        await callback.message.delete()
+    except TelegramBadRequest as e:
+        logging.warning(e)
+
 
 
 async def wrong_ans(callback: types.CallbackQuery, bot: Bot):
+    logging.info(f"Пользователь ответил НЕ правильно {ver=}")
     await ban_user(
         member_id=callback.from_user.id,
         bot=bot,
         group_id=callback.message.chat.id,
         user_fullname=callback.from_user.full_name,
     )
-    await callback.message.delete()
+    try:
+        await callback.message.delete()
+    except TelegramBadRequest as e:
+        logging.warning(e)
 
 
 async def wrong_user(callback: types.CallbackQuery):
+    logging.info(f"Пользователь нажал на не своё сообщение")
     await callback.answer("Не твоё сообщение!")
 
 
