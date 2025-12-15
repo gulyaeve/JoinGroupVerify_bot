@@ -38,9 +38,9 @@ async def kick(
     user_fullname: str,
     message_id: int,
 ):
-    logging.info(f"{ver=} {member_id=}")
+    logging.info(f"kick before timer {ver=} {member_id=}")
     await asyncio.sleep(time_to_join)
-    logging.info(f"{ver=} {member_id=}")
+    logging.info(f"kick after timer {ver=} {member_id=}")
     try:
         await bot.delete_message(message_id=message_id, chat_id=group_id)
     except TelegramBadRequest as e:
