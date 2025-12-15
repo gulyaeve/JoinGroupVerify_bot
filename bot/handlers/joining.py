@@ -45,7 +45,7 @@ async def kick(
         logging.warning(e)
 
     user_in_group = await bot.get_chat_member(group_id, member_id)
-    if member_id not in ver and user_in_group.status != "left":
+    if str(member_id) not in ver and user_in_group.status != "left":
         await ban_user(
             member_id=member_id,
             bot=bot,
